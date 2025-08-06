@@ -1,0 +1,73 @@
+from typing import AsyncGenerator
+
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
+from sqlalchemy.orm import declarative_base
+from app.config.config import Config
+
+Base = declarative_base()
+
+engine = create_async_engine(
+    Config.DATABASE_URL,
+    echo=False,
+    future=True,
+)
+
+async_session_maker = async_sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
+
+
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+
+
+-----------------------------------------------------------------
+
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class Config:
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT")
+    DB_NAME = os.getenv("DB_NAME")
+    DATABASE_URL = (
+        f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+xny-cnbk-hqt
+
+
+------------------------------------------------------------------------------
+
+from ..config.connect_db import Base
+from sqlalchemy import (
+    Column,
+    BigInteger,
+    ForeignKey,
+    TIMESTAMP,
+)
+from datetime import datetime, timezone
+
+
+class AbstractBase(Base):
+    __abstract__ = True
+
+    created_at = Column(
+        TIMESTAMP(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
+    updated_at = Column(
+        TIMESTAMP(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
+    cr
