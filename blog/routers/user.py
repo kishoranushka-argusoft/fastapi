@@ -19,9 +19,8 @@ def create_user(user: models.UserCreate, session: database.SessionDep):
     user.password = hash_pwd
     # print(user.password)
     # print(hashedPassword)
-   
     db_user = models.User.model_validate(user)
-    # print("----------------",db_user)
+    # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",db_user)
     session.add(db_user)
     session.commit()
     session.refresh(db_user)

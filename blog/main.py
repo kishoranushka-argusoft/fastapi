@@ -1,7 +1,6 @@
-from . import models, database, schemas, hashing
-from fastapi import Depends, FastAPI, HTTPException, Query, status
-from sqlmodel import Field, Session, SQLModel, create_engine, select
-from typing import Annotated
+from . import database
+from fastapi import Depends, FastAPI
+from sqlmodel import SQLModel
 from .routers import user, hero, authentication
 
 tags_metadata = [
@@ -21,9 +20,10 @@ tags_metadata = [
 
 
 app = FastAPI(openapi_tags=tags_metadata)
+app.include_router(authentication.router)
 app.include_router(user.router)
 app.include_router(hero.router)
-app.include_router(authentication.router)
+
 
 
 def create_db_and_tables():

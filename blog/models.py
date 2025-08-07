@@ -12,11 +12,12 @@ class Hero(schemas.Hero, table=True):
 
 class HeroPublic(schemas.Hero):
     id: int
+    user: Optional["User"]
 
 
 class HeroCreate(schemas.Hero):
     secret_name: str
-    
+    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
 
 class HeroUpdate(schemas.Hero):
@@ -33,8 +34,9 @@ class User(schemas.Hero, table=True):
     hero: list[Hero] = Relationship(back_populates="user") # Relationship attribute
 
 class UserPublic(schemas.Hero):
+    id: int
     email: str 
-    hero_id: int | None 
+    hero: list[Hero]
 
 
 class UserCreate(schemas.Hero):

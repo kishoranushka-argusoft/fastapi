@@ -11,5 +11,14 @@ class Hero(SQLModel):
 
 
 class Login(SQLModel):
-    username: str
+    email: str
     password: str
+
+
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(SQLModel):
+    email: str | None = None
